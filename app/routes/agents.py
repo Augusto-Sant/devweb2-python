@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from models import AgentBase, PermissionEnum, User, Agent
+from models import AgentBase, PermissionEnum, User, Agent, Task
 from dependencies import has_permission, get_database, get_current_user
 from controllers.agent_controller import AgentController
 from DAO.agent_dao import AgentDAO
@@ -41,3 +41,14 @@ async def delete_agent(agent_id: str, db=Depends(get_database)):
     agent_dao = AgentDAO(db)
     agent_controller = AgentController(agent_dao)
     return await agent_controller.delete_agent(agent_id)
+
+
+@router.get(
+    "/{agent_id}/tasks",
+    response_model=list[Task],
+    dependencies=[Depends(has_permission(PermissionEnum.READ))],
+)
+async def list_agent_tasks(agent_id: str, db=Depends(get_database)):
+    agent_dao = AgentDAO(db)
+    agent_controller = AgentController(agent_dao)
+    return await agent_controller.list_tasks(agent_id)

@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from models import Agent, AgentBase, User
+from models import Agent, AgentBase, User, Task
 from DAO.agent_dao import AgentDAO
 
 
@@ -25,3 +25,9 @@ class AgentController:
         if result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="Agent not found")
         return {"message": "Agent deleted successfully"}
+
+    async def list_tasks(self, agent_id: str):
+        tasks_data = self.agent_dao.find_tasks_by_agent(agent_id)
+        if not tasks_data:
+            raise HTTPException(status_code=404, detail="No tasks found for this agent")
+        return [Task(**task_data) for task_data in tasks_data]
