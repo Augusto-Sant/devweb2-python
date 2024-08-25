@@ -4,3 +4,5 @@ pymongo
 python-dotenv
 pyjwt
 bcrypt
+pydantic[email]
+python-multipart
