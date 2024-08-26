@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from bson import ObjectId
 from models import User, UserCreate, PermissionEnum
 from controllers.user_controller import UserController
 from dependencies import has_permission, get_database
