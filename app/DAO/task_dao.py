@@ -8,6 +8,9 @@ class TaskDAO:
     def find_task_by_id(self, task_id: str):
         return self.collection.find_one({"_id": ObjectId(task_id)})
 
+    def find_tasks_by_agent(self, agent_id: str):
+        return list(self.collection.find({"agent_id": agent_id}))
+
     def insert_task(self, task_dict: dict):
         return self.collection.insert_one(task_dict)
 

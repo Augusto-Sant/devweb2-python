@@ -38,3 +38,9 @@ class TaskController:
         self.task_dao.delete_task_by_id(task_id)
 
         return {"message": "Task deleted successfully"}
+
+    async def list_tasks_by_agent(self, agent_id: str):
+        tasks_data = self.task_dao.find_tasks_by_agent(agent_id)
+        if not tasks_data:
+            raise HTTPException(status_code=404, detail="No tasks found for this agent")
+        return [Task(**task_data) for task_data in tasks_data]

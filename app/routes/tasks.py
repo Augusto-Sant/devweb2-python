@@ -43,3 +43,15 @@ async def delete_task(task_id: str, db=Depends(get_database)):
     agent_dao = AgentDAO(db)
     task_controller = TaskController(task_dao=task_dao, agent_dao=agent_dao)
     return await task_controller.delete_task(task_id)
+
+
+@router.get(
+    "/agent/{agent_id}/tasks",
+    response_model=list[Task],
+    dependencies=[Depends(has_permission(PermissionEnum.READ))],
+)
+async def list_tasks_by_agent(agent_id: str, db=Depends(get_database)):
+    task_dao = TaskDAO(db)
+    agent_dao = AgentDAO(db)
+    task_controller = TaskController(task_dao=task_dao, agent_dao=agent_dao)
+    return await task_controller.list_tasks_by_agent(agent_id)
