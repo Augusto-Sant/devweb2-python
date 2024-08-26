@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from models import AgentBase, PermissionEnum, User, Agent, Task
+from models import AgentBase, PermissionEnum, User, Agent
 from dependencies import has_permission, get_database, get_current_user
 from controllers.agent_controller import AgentController
 from DAO.agent_dao import AgentDAO
